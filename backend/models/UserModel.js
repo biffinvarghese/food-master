@@ -12,11 +12,32 @@ export const getAllUser = (result) => {
         }
     });
 };
-
-
 // get single user
 export const getUserByEmail = (data,result) => {
-    db.query("SELECT user_id, user_name, user_password FROM user WHERE user_email = ?",[data], (err,results)=> {
+    db.query("SELECT * FROM user WHERE user_email = ?",[data.email], (err,results)=> {
+        if (err){
+            console.log(err);
+            result(err,null);
+        }else{
+            result(null,results);
+        }
+    });
+};
+// get single user by id
+export const getUserById = (data,result) => {
+    db.query("SELECT * FROM user WHERE user_id = ?",[data], (err,results)=> {
+        if (err){
+            console.log(err);
+            result(err,null);
+        }else{
+            result(null,results[0]);
+        }
+    });
+};
+
+// get single user
+export const userLogin = (data,result) => {
+    db.query("SELECT * FROM user WHERE user_email = ? AND user_password = ?",[data.email, data.password], (err,results)=> {
         if (err){
             console.log(err);
             result(err,null);
@@ -33,11 +54,8 @@ export const insertUser = (data,result) => {
             console.log(err);
             result(err,null);
         }else{
-            result(null,results[0]);
+            console.log(results)
+            result(null,results);
         }
     });
 };
-
-
-
-

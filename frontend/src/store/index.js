@@ -18,6 +18,8 @@ const store = new Vuex.Store({
     return {
       allFoods: [],
       user: undefined,
+      role: undefined,
+      userId: undefined,
       admin: undefined,
       cart: [],
     };
@@ -26,9 +28,32 @@ const store = new Vuex.Store({
     setFoodsData(state, payload) {
       state.allFoods = payload;
     },
-    setUser(state, payload) {
-      state.user = payload;
+    setUser(state, token) {
+      if (token) {
+        var base64Url = (token || "").split(".")[1];
+        var base64 = (base64Url || "").replace(/-/g, "+").replace(/_/g, "/");
+        var jsonPayload = decodeURIComponent(
+          window
+            .atob(base64)
+            .split("")
+            .map(function (c) {
+              return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+        );
+
+        let decoded = JSON.parse(jsonPayload);
+        console.log("decoded", decoded);
+        state.role = decoded.role || "CUSTOMER";
+        state.userId = decoded.userId || "";
+        state.user = decoded;
+      } else {
+        state.role = undefined;
+        state.userId = undefined;
+        state.user = undefined;
+      }
     },
+
     setAdmin(state, payload) {
       state.admin = payload;
     },
@@ -59,7 +84,6 @@ const store = new Vuex.Store({
           return payload.id === item.id;
         });
         if (index > -1) {
-          
           state.cart.splice(index, 1);
         }
       }

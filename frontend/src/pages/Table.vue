@@ -133,11 +133,11 @@ export default {
 
   data() {
     return {
-      orderObj: { people: "", tables: "", when: "" },
+      orderObj: { table_type: "", table_name: "", when: "" },
       errorObj: { peopleErr: [], tablesErr: [], whenErr: [] },
       tableTypes: [],
       tableNames: [],
-      tables: [],
+      table_name: [],
     };
   },
   mounted() {
@@ -146,18 +146,18 @@ export default {
 
   methods: {
     fetchTableNames() {
-      const tableNames = this.tables.filter(table => {
+      const tableNames = this.table_name.filter(table => {
         console.log('table', table)
         return table.table_type === this.orderObj.table_type
       })
       this.tableNames = [...new Set(tableNames.map((type) => type.table_name))];
-      console.log('this.tableNames', this.tableNames, this.tables)
+      console.log('this.tableNames', this.tableNames, this.table_name)
       this.$forceUpdate()
     },
     async fetchTableConfig() {
       try {
         const response = await axios.get("book-tables");
-        this.tables = response.data;
+        this.table_name = response.data;
         const res = JSON.parse(JSON.stringify(response.data));
         this.tableTypes = [...new Set(res.map((type) => type.table_type))];
 
@@ -206,24 +206,25 @@ export default {
     },
 
     checkForm: function () {
+      console.log(this.orderObj)
       this.resetCheckErr();
 
-      if (!this.orderObj.people) {
+      if (!this.orderObj.table_type) {
         this.errorObj.peopleErr.push("Entering the seating number is required");
       } else {
-        if (parseInt(this.orderObj.people) > 100) {
+        if (parseInt(this.orderObj.table_type) > 100) {
           this.errorObj.peopleErr.push(
             "Each individuals can only reserve the available seats"
           );
         }
       }
 
-      if (!this.orderObj.tables) {
-        this.errorObj.tablesErr.push("Entering number of tables is required");
+      if (!this.orderObj.table_name) {
+        this.errorObj.tablesErr.push("Entering number of table_name is required");
       } else {
-        if (parseInt(this.orderObj.tables) > 50) {
+        if (parseInt(this.orderObj.table_name) > 50) {
           this.errorObj.tablesErr.push(
-            "Each individual can only have maximum tables"
+            "Each individual can only have maximum table_name"
           );
         }
       }
@@ -231,10 +232,7 @@ export default {
       if (!this.orderObj.when) {
         this.errorObj.whenErr.push("Entering when to serve is required");
       } else {
-        let minRange = document.getElementById("oWhen").getAttribute("min");
-        let maxRange = document.getElementById("oWhen").getAttribute("max");
-        let dateMin = new Date(minRange);
-        let dateMax = new Date(maxRange);
+        let dateMin = new Date();
         let dateInput = new Date(this.orderObj.when);
 
         if (dateInput === "Invalid Date") {
@@ -242,11 +240,10 @@ export default {
         }
 
         if (
-          dateInput.getTime() < dateMin.getTime() ||
-          dateInput.getTime() > dateMax.getTime()
+          dateInput.getTime() < dateMin.getTime()
         ) {
           this.errorObj.whenErr.push(
-            "Available reservation range is from now to next three hours"
+            "Available reservation from post 1 hour"
           );
         }
 
@@ -267,9 +264,9 @@ export default {
         e.preventDefault();
 
         let data = {
-          book_people: parseInt(this.orderObj.people),
-          book_tables: parseInt(this.orderObj.tables),
-          book_when: this.orderObj.when,
+          table_type: this.orderObj.table_type,
+          table_name: this.orderObj.table_name,
+          date: this.orderObj.when,
         };
 
         await axios.post("/booking", data);
@@ -280,6 +277,7 @@ export default {
           "Booking Successfully !"
         );
         document.getElementById("bookTableForm").reset();
+        this.$router.push('/menu')
       }
     },
   },

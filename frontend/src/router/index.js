@@ -9,6 +9,7 @@ import Cart from '../pages/Cart.vue';
 import Checkout from '../pages/Checkout.vue';
 import Admin from '../admin/Admin.vue';
 import Dashboard from '../admin/AdminHome.vue';
+import BookedTableManagement from '../admin/BookedTableManagement.vue';
 import TableManagement from '../admin/TableManagement.vue';
 import TableAddOrEdit from '../admin/TableAddOrEdit.vue';
 import ProductManagement from '../admin/ProductManagement.vue';
@@ -72,6 +73,11 @@ const routes = [
         path: "/admin/dashboard/table-management",
         name: "TableManagement",
         component: TableManagement,
+      },
+      {
+        path: "/admin/dashboard/booked-table-management",
+        name: "BookedTableManagement",
+        component: BookedTableManagement,
       },
       {
         path: "/admin/dashboard/table-add-or-edit",

@@ -12,7 +12,7 @@ import {
 import {
     showAUser,
     createAccount,
-    allUsers
+    allUsers, userAuthentication
 } from "../controllers/user.js";
 
 import {
@@ -23,6 +23,16 @@ import {
     deleteItem,
     deleteItems
 } from "../controllers/cart.js";
+
+import {
+    createBook,
+    createBooking,
+    fetchBookedTables,
+    fetchBookedTablesByTableId,
+    updateBookedTable,
+    deleteBookedTable,
+    fetchBookings
+} from "../controllers/booktable.js";
 
 import {
     createBillDetails,getBillDetailsById
@@ -38,10 +48,6 @@ import {
     updateBillPaid,
     cancelBillStatus
 } from "../controllers/billstatus.js";
-
-import {
-   createBook, createBooking,  fetchBookedTables, fetchBookedTablesByTableId, updateBookedTable, deleteBookedTable
-} from "../controllers/booktable.js";
 
 import {createFoodCategory,fetchFoodCategory} from "../controllers/foodcategory.js";
 import {createProduct, fetchProduct} from "../controllers/products.js";
@@ -74,6 +80,9 @@ router.delete("/api/foods/:id", deleteFood);
 ////////////////////////// USER part ////////////////////////////////
 // get all user
 router.get("/api/users/:email", showAUser);
+
+// user authentication
+router.post("/api/users/authentication", userAuthentication);
 
 // create account
 router.post("/api/users/", createAccount);
@@ -108,9 +117,10 @@ router.delete("/api/cartItem/:id", deleteItems);
 
 
 ////////////////////////// Booking section ////////////////////////////////
-router.post("/api/booking", createBook);
-router.post("/api/book-tables", createBooking);
-router.get("/api/book-tables", fetchBookedTables);
+router.post("/api/booking", createBook); //Create booking
+router.post("/api/book-tables", createBooking); // Table config add
+router.get("/api/book-tables", fetchBookedTables);// Table config add
+router.get("/api/bookings", fetchBookings);// Get booked tables
 router.get("/api/book-tables/:table_id", fetchBookedTablesByTableId);
 router.put("/api/book-tables/:table_id", updateBookedTable);
 router.delete("/api/book-tables/:table_id", deleteBookedTable);
@@ -148,7 +158,6 @@ router.get("/api/billstatus", getAllBills);
 router.put("/api/billstatus/:id", updateBillStatus);
 router.put("/api/billstatus/paid/:id", updateBillPaid);
 router.put("/api/billstatus/cancel/:id", cancelBillStatus);
-
 
 
 

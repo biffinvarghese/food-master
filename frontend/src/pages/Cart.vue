@@ -180,7 +180,6 @@ export default {
 
     filterFoods: function () {
       return this.cart;
-      
     },
   },
 

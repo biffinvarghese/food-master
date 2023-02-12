@@ -8,21 +8,52 @@
         style="width: 20%"
       >
         <div class="link-container">
-          <router-link to="/admin/dashboard/user-management" class="w3-bar-item w3-button"
-            >Dashboard</router-link
+          <router-link
+            to="/admin/dashboard/user-management"
+            class="w3-bar-item w3-button"
           >
+            Dashboard
+          </router-link>
         </div>
         <div class="link-container">
-          <router-link class="w3-bar-item w3-button" to="/admin/dashboard/table-management">Table Management</router-link>
+          <router-link
+            class="w3-bar-item w3-button"
+            to="/admin/dashboard/booked-table-management"
+          >
+            Booked Table Management
+          </router-link>
         </div>
         <div class="link-container">
-          <router-link class="w3-bar-item w3-button" to="/admin/dashboard/food-category-management">Food categories</router-link>
+          <router-link
+            class="w3-bar-item w3-button"
+            to="/admin/dashboard/table-management"
+          >
+            Table Management
+          </router-link>
         </div>
         <div class="link-container">
-          <router-link class="w3-bar-item w3-button" to="/admin/dashboard/product-management">Product Management</router-link>
+          <router-link
+            class="w3-bar-item w3-button"
+            to="/admin/dashboard/food-category-management"
+          >
+            Food categories
+          </router-link>
         </div>
         <div class="link-container">
-          <router-link class="w3-bar-item w3-button" to="/admin/dashboard/orders">Orders</router-link>
+          <router-link
+            class="w3-bar-item w3-button"
+            to="/admin/dashboard/product-management"
+          >
+            Product Management
+          </router-link>
+        </div>
+        <div class="link-container">
+          <router-link
+            class="w3-bar-item w3-button"
+            to="/admin/dashboard/orders"
+          >
+            Orders
+          </router-link>
         </div>
       </div>
       <div class="column right">

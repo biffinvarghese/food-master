@@ -223,11 +223,11 @@ export default {
                 e.preventDefault();
             } else {
                 e.preventDefault();
-                await this.getMatchUser(this.registerObj.email);
-                if (this.matchUser) {
-                    this.errorObj.emailErr.push("Account already exist")
-                }
-                else {
+                // await this.getMatchUser(this.registerObj.email);
+                // if (this.matchUser) {
+                //     this.errorObj.emailErr.push("Account already exist")
+                // }
+                // else {
                     let data = {
                         user_name: this.registerObj.name,
                         user_email: this.registerObj.email,
@@ -238,7 +238,7 @@ export default {
                     }
                     await axios.post("/users/", data);
                     this.$router.push("/login");
-                }
+                // }
             }
         }
     },

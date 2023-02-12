@@ -8,15 +8,15 @@
                 </div>
 
                 <div class="form-group details-group">
-                    <h4>Payment Details</h4>
+                    <h4>Shipping Details</h4>
                     <div class="form-group">
-                        <input type="text" name="coPhone" id="coPhone" placeholder="Name" class="form-control"
+                        <input type="text" name="coPhone" id="coPhone" placeholder="Phone number" class="form-control"
                             v-model="checkoutObj.phone" />
                         <p class="error-mess" v-if="errorObj.phoneErr.length > 0">{{ errorObj.phoneErr[0] }}</p>
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="coAddress" id="coAddress" placeholder="Phone Number"
+                        <input type="text" name="coAddress" id="coAddress" placeholder="Address in Hanoi, Vietnam"
                             class="form-control" v-model="checkoutObj.address" />
                         <p class="error-mess" v-if="errorObj.addressErr.length > 0">{{ errorObj.addressErr[0] }}</p>
                     </div>
@@ -189,6 +189,9 @@ export default {
                 this.errorObj.phoneErr.push('Entering phone number is required');
             }
             else {
+                if (!this.checkoutObj.phone.startsWith('84')) {
+                    this.errorObj.phoneErr.push('Phone numbers must start with 84');
+                }
 
                 if (this.checkoutObj.phone.length != 11) {
                     this.errorObj.phoneErr.push('Phone numbers must have exactly 11 digits');
