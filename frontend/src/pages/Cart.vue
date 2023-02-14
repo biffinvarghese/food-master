@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable -->
   <div class="shopping-cart-section">
     <div class="heading">
       <span>Shopping Cart</span>

@@ -1,4 +1,5 @@
 <template>
+    <!-- eslint-disable -->
     <div class="menu-section">
       <div class="heading">
         <span>menu</span>

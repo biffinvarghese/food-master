@@ -126,11 +126,11 @@
 // class="btn" -->
 
 <script>
+import { mapState } from "vuex";
 import axios from "axios";
 import VueBasicAlert from "vue-basic-alert";
 export default {
   name: "Table",
-
   data() {
     return {
       orderObj: { table_type: "", table_name: "", when: "" },
@@ -143,16 +143,18 @@ export default {
   mounted() {
     this.fetchTableConfig();
   },
-
+  computed: {
+    ...mapState(["userId"]),
+  },
   methods: {
     fetchTableNames() {
-      const tableNames = this.table_name.filter(table => {
-        console.log('table', table)
-        return table.table_type === this.orderObj.table_type
-      })
+      const tableNames = this.table_name.filter((table) => {
+        console.log("table", table);
+        return table.table_type === this.orderObj.table_type;
+      });
       this.tableNames = [...new Set(tableNames.map((type) => type.table_name))];
-      console.log('this.tableNames', this.tableNames, this.table_name)
-      this.$forceUpdate()
+      console.log("this.tableNames", this.tableNames, this.table_name);
+      this.$forceUpdate();
     },
     async fetchTableConfig() {
       try {
@@ -160,7 +162,6 @@ export default {
         this.table_name = response.data;
         const res = JSON.parse(JSON.stringify(response.data));
         this.tableTypes = [...new Set(res.map((type) => type.table_type))];
-
         console.log("error", response);
       } catch (error) {
         console.log("error", error.data);
@@ -185,17 +186,14 @@ export default {
         min;
       var maxRange =
         now.getFullYear() + "-" + maxMonth + "-" + day + "T" + hour + ":" + min;
-
       document.getElementById("oWhen").setAttribute("min", minRange);
       document.getElementById("oWhen").setAttribute("max", maxRange);
     },
-
     resetCheckErr: function () {
       this.errorObj.peopleErr = [];
       this.errorObj.tablesErr = [];
       this.errorObj.whenErr = [];
     },
-
     checkEmptyErr: function () {
       for (var typeErr in this.errorObj) {
         if (this.errorObj[typeErr].length != 0) {
@@ -204,11 +202,9 @@ export default {
       }
       return true;
     },
-
     checkForm: function () {
-      console.log(this.orderObj)
+      console.log(this.orderObj);
       this.resetCheckErr();
-
       if (!this.orderObj.table_type) {
         this.errorObj.peopleErr.push("Entering the seating number is required");
       } else {
@@ -218,9 +214,10 @@ export default {
           );
         }
       }
-
       if (!this.orderObj.table_name) {
-        this.errorObj.tablesErr.push("Entering number of table_name is required");
+        this.errorObj.tablesErr.push(
+          "Entering number of table_name is required"
+        );
       } else {
         if (parseInt(this.orderObj.table_name) > 50) {
           this.errorObj.tablesErr.push(
@@ -228,25 +225,17 @@ export default {
           );
         }
       }
-
       if (!this.orderObj.when) {
         this.errorObj.whenErr.push("Entering when to serve is required");
       } else {
         let dateMin = new Date();
         let dateInput = new Date(this.orderObj.when);
-
         if (dateInput === "Invalid Date") {
           this.errorObj.whenErr.push("Invalid date input");
         }
-
-        if (
-          dateInput.getTime() < dateMin.getTime()
-        ) {
-          this.errorObj.whenErr.push(
-            "Available reservation from post 1 hour"
-          );
+        if (dateInput.getTime() < dateMin.getTime()) {
+          this.errorObj.whenErr.push("Available reservation from post 1 hour");
         }
-
         if (dateInput.getHours() < 7 || dateInput.getHours() > 22) {
           this.errorObj.whenErr.push(
             "Store open from 8:00 AM to 9:00 PM everyday"
@@ -254,34 +243,29 @@ export default {
         }
       }
     },
-
     async handleSubmit(e) {
       this.checkForm();
-
       if (!this.checkEmptyErr()) {
         e.preventDefault();
       } else {
         e.preventDefault();
-
         let data = {
           table_type: this.orderObj.table_type,
           table_name: this.orderObj.table_name,
           date: this.orderObj.when,
+          user_id: this.userId,
         };
-
         await axios.post("/booking", data);
-
         this.$refs.alert.showAlert(
           "success",
           "Thank you! We will call you soon to confirm your order",
           "Booking Successfully !"
         );
         document.getElementById("bookTableForm").reset();
-        this.$router.push('/menu')
+        this.$router.push("/menu");
       }
     },
   },
-
   components: {
     VueBasicAlert,
   },
@@ -292,35 +276,29 @@ export default {
 .order-section {
   padding: 2rem 9%;
 }
-
 .order-section .icons-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(40rem, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
-
 .order-section .icons-container .icons {
   border-radius: 0.5rem;
   padding: 2rem;
   text-align: center;
   background: #f7f7f7;
 }
-
 .order-section .icons-container .icons img {
   height: 10rem;
 }
-
 .order-section .icons-container .icons h3 {
   font-size: 2rem;
   color: #130f40;
   margin-top: 0.5rem;
 }
-
 .section {
   position: relative;
 }
-
 .section .section-center {
   position: absolute;
   top: 50%;
@@ -329,11 +307,9 @@ export default {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-
 #booking {
   font-family: "Raleway", sans-serif;
 }
-
 .booking-form {
   position: relative;
   max-width: 642px;
@@ -346,7 +322,6 @@ export default {
   border-radius: 5px;
   z-index: 20;
 }
-
 .booking-form::before {
   content: "";
   position: absolute;
@@ -357,13 +332,11 @@ export default {
   background: rgba(0, 0, 0, 0.7);
   z-index: -1;
 }
-
 .booking-form .form-header {
   text-align: center;
   position: relative;
   margin-bottom: 30px;
 }
-
 .booking-form .form-header h1 {
   font-weight: 700;
   text-transform: capitalize;
@@ -371,12 +344,10 @@ export default {
   margin: 0px;
   color: rgb(252, 72, 72);
 }
-
 .booking-form .form-group {
   position: relative;
   margin-bottom: 30px;
 }
-
 .booking-form .form-control {
   background-color: rgba(255, 255, 255, 0.2);
   height: 60px;
@@ -389,47 +360,37 @@ export default {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-
 .booking-form .form-control::-webkit-input-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
-
 .booking-form .form-control:-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
-
 .booking-form .form-control::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
-
 .booking-form .form-control:focus {
   -webkit-box-shadow: 0px 0px 0px 2px #ff8846;
   box-shadow: 0px 0px 0px 2px #ff8846;
 }
-
 .booking-form input[type="date"].form-control {
   padding-top: 16px;
 }
-
 .booking-form input[type="date"].form-control:invalid {
   color: rgba(255, 255, 255, 0.5);
 }
-
 .booking-form input[type="date"].form-control + .form-label {
   opacity: 1;
   top: 10px;
 }
-
 .booking-form select.form-control {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
-
 .booking-form select.form-control:invalid {
   color: rgba(255, 255, 255, 0.5);
 }
-
 .booking-form select.form-control + .select-arrow {
   position: absolute;
   right: 15px;
@@ -444,18 +405,15 @@ export default {
   color: rgba(255, 255, 255, 0.5);
   font-size: 14px;
 }
-
 .booking-form select.form-control + .select-arrow:after {
   content: "\279C";
   display: block;
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-
 .booking-form select.form-control option {
   color: #000;
 }
-
 .booking-form .form-label {
   position: absolute;
   top: -10px;
@@ -471,16 +429,13 @@ export default {
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
 }
-
 .booking-form .form-group.input-not-empty .form-control {
   padding-top: 16px;
 }
-
 .booking-form .form-group.input-not-empty .form-label {
   opacity: 1;
   top: 10px;
 }
-
 .booking-form .submit-btn {
   color: rgb(12, 2, 2);
   background-color: #e35e0a;
@@ -496,12 +451,10 @@ export default {
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
 }
-
 .booking-form .submit-btn:hover,
 .booking-form .submit-btn:focus {
   opacity: 0.9;
 }
-
 @media (max-width: 576px) {
   .order-section .icons-container {
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
