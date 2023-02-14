@@ -8,7 +8,7 @@
                 </div>
 
                 <div class="form-group details-group">
-                    <h4>Shipping Details</h4>
+                    <h4>Payment Details</h4>
                     <div class="form-group">
                         <input type="text" name="coPhone" id="coPhone" placeholder="Phone number" class="form-control"
                             v-model="checkoutObj.phone" />
@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="coAddress" id="coAddress" placeholder="Address in Hanoi, Vietnam"
+                        <input type="text" name="coAddress" id="coAddress" placeholder="Address "
                             class="form-control" v-model="checkoutObj.address" />
                         <p class="error-mess" v-if="errorObj.addressErr.length > 0">{{ errorObj.addressErr[0] }}</p>
                     </div>
