@@ -1,5 +1,5 @@
-/* eslint-disable */
 <template>
+      <!-- eslint-disable -->
 <div class="audio-recording-container">
     <h1 class="title"><b>Welcome to ChAI</b><br>Eating the world, one bite at a time.</h1>
     <h2 class="title">Tell us what you would like to eat and we find it for you! </h2>

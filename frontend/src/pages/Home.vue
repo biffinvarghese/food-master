@@ -20,7 +20,7 @@
 
     <div class="home-category">
       <template v-for="(category, index) in categories" :key="index">
-        <router-link @click="scrollToTop()" to="/menu" class="box">
+        <router-link @click="scrollToTop()" to="/homenu" class="box">
           <img :src="'http://localhost:8081/'+category.image" alt="" />
           <h3>{{category.name}}</h3>
         </router-link>
