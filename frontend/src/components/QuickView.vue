@@ -38,7 +38,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import axios from "axios";
 import { mapState } from "vuex";

@@ -4,7 +4,9 @@ import Register from '../pages/Register.vue';
 import Home from '../pages/Home.vue';
 import About from '../pages/About.vue';
 import Menu from '../pages/Menu.vue';
+import Homenu from '../pages/Homenu.vue';
 import Table from '../pages/Table.vue';
+import Audio from '../pages/Audio.vue';
 import Cart from '../pages/Cart.vue';
 import Checkout from '../pages/Checkout.vue';
 import Admin from '../admin/Admin.vue';
@@ -40,9 +42,19 @@ const routes = [
     component: Menu,
   },
   {
+    path: "/homenu",
+    name: "Homenu",
+    component: Homenu,
+  },
+  {
     path: "/cart",
     name: "Cart",
     component: Cart,
+  },
+  {
+    path: "/Audio",
+    name: "Audio",
+    component: Audio,
   },
   {
     path: "/checkout",
