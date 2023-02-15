@@ -31,14 +31,8 @@
             v-model="loginObj.pass"
           />
         </div>
-        <div class="g-recaptcha" data-sitekey="6LfXFoEkAAAAAPSp1YiD_HlbB0rNHJ0wvdifCgoQ"></div>
-        <!-- <vue-recaptcha
-        ref="recaptcha"
-        @verify="onCaptchaVerified"
-        @expired="onCaptchaExpired"
-        size="invisible"
-        sitekey="6LfXFoEkAAAAAPSp1YiD_HlbB0rNHJ0wvdifCgoQ">
-      </vue-recaptcha> -->
+        <div class="g-recaptcha" data-sitekey="6LfXFoEkAAAAAPSp1YiD_HlbB0rNHJ0wvdifCgoQ" ></div>
+
         <div class="form-group">
           <input type="submit" value="login now" class="btn" />
           <p>
