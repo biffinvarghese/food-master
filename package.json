@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "vue-recaptcha": "^2.0.3"
   }
 }

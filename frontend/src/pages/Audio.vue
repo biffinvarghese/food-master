@@ -1,7 +1,7 @@
 <template>
       <!-- eslint-disable -->
 <div class="audio-recording-container">
-    <h1 class="title"><b>Welcome to ChAI</b><br>Eating the world, one bite at a time.</h1>
+    <h1 class="title"><b>Welcome to HilstaurantAI</b><br>Eating the world, one bite at a time.</h1>
     <h2 class="title">Tell us what you would like to eat and we find it for you! </h2>
     <h6 class="description-text"> Don't forget to include your taste on food, specific diets (vegetarian, high protein content, etc), which ingredients you would like, which you have at your disposal. Be as specific as you can be, the more specific the better! </h6>
     <i class="start-recording-button fa fa-microphone" aria-hidden="true"></i>
