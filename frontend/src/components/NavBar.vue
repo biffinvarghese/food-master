@@ -14,7 +14,7 @@
 
         <div class="icons" v-if="!isAdmin">
             <div id="menu-btn" class="fas fa-bars menu-btn" @click="showNav"></div>
-            <router-link @click="scrollToTop()" to="cart">
+            <router-link @click="scrollToTop()" to="/cart" v-if="user">
                 <div class="fas fa-shopping-cart cart"></div>
             </router-link>
 
