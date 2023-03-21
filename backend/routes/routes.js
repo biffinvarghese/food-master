@@ -13,7 +13,7 @@ import {
   showAUser,
   createAccount,
   allUsers,
-  userAuthentication,
+  userAuthentication, getUserById,
 } from "../controllers/user.js";
 
 import {
@@ -24,7 +24,7 @@ import {
   allItems,
   getCartByUser,
   deleteItem,
-  deleteItems,
+  deleteItems, getAllPurchasedCart,getAllPurchasedCartById
 } from "../controllers/cart.js";
 
 import {
@@ -71,6 +71,9 @@ router.delete("/api/foods/:id", deleteFood);
 // get all user
 router.get("/api/users/:email", showAUser);
 
+// get a user by user id
+router.get("/api/users/id/:id", getUserById);
+
 // user authentication
 router.post("/api/users/authentication", userAuthentication);
 
@@ -103,6 +106,12 @@ router.put("/api/cartItem/", updateItem);
 
 // update item qty
 router.put("/api/cart/user/status", updateCartStatus);
+
+// get all purchased cart
+router.get("/api/orders", getAllPurchasedCart);
+
+// get purchased cart by id
+router.get("/api/orders/:id", getAllPurchasedCartById);
 
 // delete a item in cart
 router.delete("/api/cartItem/:user_id/:food_id", deleteItem);
