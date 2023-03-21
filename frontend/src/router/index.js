@@ -18,7 +18,7 @@ import FoodCategoryAddOrEdit from '../admin/FoodCategoryAddOrEdit.vue';
 import ProductAddOrEdit from '../admin/ProductAddOrEdit.vue';
 import UserManagement from '../admin/UserManagement.vue';
 import OrderManagement from '../admin/OrderManagement.vue';
-// import OrderDetails from '../admin/OrderDetails.vue';
+import OrderDetails from '../admin/OrderDetails.vue';
 
 const routes = [
   {
@@ -116,11 +116,11 @@ const routes = [
         name: "OrderManagement",
         component: OrderManagement,
       },
-      // {
-      //   path: "/admin/dashboard/order-details",
-      //   name: "OrderDetails",
-      //   component: OrderDetails,
-      // },
+      {
+        path: "/admin/dashboard/order-details",
+        name: "OrderDetails",
+        component: OrderDetails,
+      },
     ]
   },
   {
