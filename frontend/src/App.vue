@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <div id="app">
     <div v-if="admin">
@@ -48,7 +47,6 @@ export default {
   methods: {
     ...mapActions(["getFoodsData"]),
     ...mapMutations(["setAdmin"]),
-
   },
 };
 </script>
