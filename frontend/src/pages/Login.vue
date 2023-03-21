@@ -31,7 +31,6 @@
             v-model="loginObj.pass"
           />
         </div>
-        <div class="g-recaptcha" data-sitekey="6LfXFoEkAAAAAPSp1YiD_HlbB0rNHJ0wvdifCgoQ" ></div>
 
         <div class="form-group">
           <input type="submit" value="login now" class="btn" />

@@ -1,17 +1,18 @@
+/* eslint-disable */
 <template>
   <div id="app">
     <div v-if="admin">
       <router-view></router-view>
     </div>
     <div v-else>
-      <NavBar />
+      <NavBar v-if="$route.path !== '/success'"/>
 
       <div class="auth-wrapper">
         <div class="auth-inner">
           <router-view></router-view>
         </div>
       </div>
-      <FooterComponent />
+      <FooterComponent v-if="$route.path !== '/success'"/>
     </div>
   </div>
 </template>
@@ -47,6 +48,7 @@ export default {
   methods: {
     ...mapActions(["getFoodsData"]),
     ...mapMutations(["setAdmin"]),
+
   },
 };
 </script>

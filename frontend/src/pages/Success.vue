@@ -1,143 +1,21 @@
 <template>
-  <div>
-    <div class="home-main">
+    <div>
+        <div class="home-main">
       <div class="content">
         <span><b>Hillstaurant</b></span>
-        <h3>Taste from God's Own Country</h3>
+        <h3 style="color: green;">Order placed successfully.</h3>
         <p>
-          Offers its royal delicacies including traditional, indian, chnese,
-          thai, spanish, and continental dishes born from the fingers tips of
-          mastered chefs as well highly competent seasoned cooks at its splended
-          restaurant.
+          Visit Hillstaurant on time. We will serve you delicious food.
         </p>
+        <button style="padding: 2em;" @click="$router.replace('/')">Back to home</button>
       </div>
       <div class="image">
         <img src="../assets/images/b.png" alt="" class="home-img" />
         <img src="../assets/images/a.png" alt="" class="home-parallax-img" />
       </div>
     </div>
-
-    <div class="home-category" v-if="!!user && !!user.userId">
-      <template v-for="(category, index) in categories" :key="index">
-        <router-link @click="scrollToTop()" to="/table" class="box">
-          <img :src="'http://localhost:8081/' + category.image" alt="" />
-          <h3>{{ category.name }}</h3>
-        </router-link>
-      </template>
     </div>
-
-    <div class="home-banner">
-      <div class="grid-banner row">
-        <div class="grid col-md-4">
-          <img src="../assets/images/h.jpg" alt="" />
-          <div class="content">
-            <span>special offer</span>
-            <h3>upto 50% off</h3>
-            <router-link @click="scrollToTop()" to="/table" class="btn"
-              >Book now</router-link
-            >
-          </div>
-        </div>
-
-        <div class="grid col-md-4">
-          <img src="../assets/images/g.jpg" alt="" />
-          <div class="content center">
-            <span>special offer</span>
-            <h3>upto 25% extra</h3>
-            <router-link @click="scrollToTop()" to="/table" class="btn"
-              >Book now</router-link
-            >
-          </div>
-        </div>
-
-        <div class="grid col-md-4">
-          <img src="../assets/images/tbl.jpg" alt="" />
-          <div class="content">
-            <span>limited offer</span>
-            <h3>100% cashback</h3>
-            <router-link @click="scrollToTop()" to="/table" class="btn"
-              >Book now</router-link
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="home-about">
-      <div class="image">
-        <img src="../assets/images/ab.jpg" alt="" />
-      </div>
-      <div class="content">
-        <span>why choose us?</span>
-        <h3 class="title">Reservations</h3>
-        <p>
-          Hillstaurant help customers to access menu items and avoid large
-          queues by prior table booking and delivering the required food items.
-          Restaurant reservation system is a solution that help customers to
-          make table reservation easier and manage table booking efficiently.
-        </p>
-        <router-link @click="scrollToTop()" to="/about" class="btn"
-          >read more</router-link
-        >
-
-        <div class="icons-container">
-          <div class="icons">
-            <img src="../assets/images/resi.jpg" alt="" />
-            <h3>reservations</h3>
-          </div>
-          <div class="icons">
-            <img src="../assets/images/serv-2.png" alt="" />
-            <h3>fresh food</h3>
-          </div>
-          <div class="icons">
-            <img src="../assets/images/serv-3.png" alt="" />
-            <h3>best quality</h3>
-          </div>
-          <div class="icons">
-            <img src="../assets/images/serv-4.png" alt="" />
-            <h3>24/7 support</h3>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
-
-<script>
-import axios from "axios";
-import { mapState } from "vuex";
-export default {
-  name: "Home",
-  data() {
-    return {
-      categories: [],
-      categoriesNames: [],
-    };
-  },
-  mounted() {
-    this.fetchAvailableCategories();
-  },
-  computed: {
-    ...mapState(["user"]),
-  },
-  methods: {
-    scrollToTop() {
-      window.scrollTo(0, 0);
-    },
-    async fetchAvailableCategories() {
-      try {
-        const response = await axios.get("food-categories");
-        const res = JSON.parse(JSON.stringify(response.data));
-        this.categories = res;
-        this.categoriesNames = res.map((category) => category.name);
-        console.log("error", response);
-      } catch (error) {
-        console.log("error", error.data);
-      }
-    },
-  },
-};
-</script>
 
 <style scoped>
 .home-main,

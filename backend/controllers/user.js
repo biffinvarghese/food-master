@@ -5,7 +5,7 @@ import {
     getAllUser,
     getUserByEmail,
     userLogin,
-    insertUser
+    insertUser, getUserByUserId
 } from "../models/UserModel.js";
 import {createToken, verifyToken} from '../config/jwt.js'
 
@@ -37,7 +37,8 @@ export const showAUser = (req,res)=>{
 
 // get user details by user id
 export const getUserById = (req,res)=>{
-    getUserByEmail(req.params.email,(err,results)=> {
+    console.log('get user id', req.params.id)
+    getUserByUserId(req.params.id,(err,results)=> {
         if (err) {
             res.send(err);
         }else {

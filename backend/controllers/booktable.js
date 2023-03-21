@@ -7,7 +7,6 @@ import {
     deleteBookedTableConfig,
     getBookings
 } from "../models/BookTableModel.js";
-import {getUserById} from "../models/UserModel.js";
 
 
 // create client Booking

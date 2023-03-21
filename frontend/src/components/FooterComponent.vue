@@ -17,7 +17,7 @@
       <div class="box">
         <h3>our menu</h3>
         <template v-for="(category, index) in categories" :key="index">
-          <router-link @click="scrollToTop()" to="/homenu"
+          <router-link @click="scrollToTop()" to="/menu"
             ><i class="fas fa-arrow-right"></i>{{ category.name }}</router-link
           >
         </template>
@@ -31,10 +31,10 @@
         <router-link @click="scrollToTop()" to="/about">
           <i class="fas fa-arrow-right"></i> about</router-link
         >
-        <router-link @click="scrollToTop()" to="/homenu">
+        <router-link @click="scrollToTop()" to="/menu">
           <i class="fas fa-arrow-right"></i> menu</router-link
         >
-        <router-link @click="scrollToTop()" to="">
+        <router-link @click="scrollToTop()" to="/table">
           <i class="fas fa-arrow-right"></i> book a table
         </router-link>
       </div>

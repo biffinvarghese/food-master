@@ -6,15 +6,15 @@
         <nav class="navbar" v-if="!isAdmin">
             <router-link @click="scrollToTop()" to="/">home</router-link>
             <router-link @click="scrollToTop()" to="/about">about</router-link>
-            <router-link @click="scrollToTop()" to="/Audio">audio</router-link>
-            <router-link @click="scrollToTop()" to="/homenu" v-if="!user">menu</router-link>
+            <router-link @click="review()" to="" target="_blank" v-if="user">review site</router-link>
+            <router-link @click="nutrient()" to="" target="_blank" v-if="user">nutrient check</router-link>
             <router-link @click="scrollToTop()" to="/menu" v-if="user">menu</router-link>
             <router-link @click="scrollToTop()" to="/table" v-if="user">table</router-link>
         </nav>
 
         <div class="icons" v-if="!isAdmin">
             <div id="menu-btn" class="fas fa-bars menu-btn" @click="showNav"></div>
-            <router-link @click="scrollToTop()" to="/cart" v-if="user">
+            <router-link @click="scrollToTop()" to="cart">
                 <div class="fas fa-shopping-cart cart"></div>
             </router-link>
 
@@ -79,6 +79,12 @@ export default {
 
         scrollToTop() {
             window.scrollTo(0, 0);
+        },
+        review(){
+            window.location.replace("http://192.168.54.84:3000/");
+        },
+        nutrient(){
+            window.location.replace("http://192.168.54.84:3001/");
         },
 
         showNav: function () {

@@ -126,7 +126,7 @@
 // class="btn" -->
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import axios from "axios";
 import VueBasicAlert from "vue-basic-alert";
 export default {
@@ -147,6 +147,7 @@ export default {
     ...mapState(["userId"]),
   },
   methods: {
+    ...mapMutations(["setTable"]),
     fetchTableNames() {
       const tableNames = this.table_name.filter((table) => {
         console.log("table", table);
@@ -249,13 +250,20 @@ export default {
         e.preventDefault();
       } else {
         e.preventDefault();
+        console.log("table", this.table_name);
+        const tableNames = this.table_name.find((table) => {
+        console.log("table", table);
+        return table.table_type === this.orderObj.table_type && table.table_name === this.orderObj?.table_name?.split(' ').join('_');
+      });
         let data = {
           table_type: this.orderObj.table_type,
           table_name: this.orderObj.table_name,
+          table_id: tableNames?.table_id|| '',
           date: this.orderObj.when,
           user_id: this.userId,
         };
         await axios.post("/booking", data);
+        await this.setTable(data)
         this.$refs.alert.showAlert(
           "success",
           "Thank you! We will call you soon to confirm your order",
@@ -271,7 +279,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .order-section {
   padding: 2rem 9%;

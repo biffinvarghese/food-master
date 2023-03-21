@@ -24,7 +24,7 @@ export const getUserByEmail = (data,result) => {
     });
 };
 // get single user by id
-export const getUserById = (data,result) => {
+export const getUserByUserId = (data,result) => {
     db.query("SELECT * FROM user WHERE user_id = ?",[data], (err,results)=> {
         if (err){
             console.log(err);

@@ -68,7 +68,9 @@
                 <div class="price">
                   {{ parseFloat(f.price) }}
                 </div>
-                <button class="btn" @click.stop="addItem(f)">Add to cart</button>
+                <button class="btn" @click.stop="addItem(f)">
+                  Add to cart
+                </button>
               </div>
             </div>
           </div>
@@ -117,15 +119,12 @@ import { mapState, mapMutations } from "vuex";
 import QuickView from "@/components/QuickView.vue";
 export default {
   name: "Menu",
-
   data() {
     return {
       foodObj: { name: "", category: "", status: [], price: "", type: "" },
-
       showQuickView: false,
       showDropDown: false,
       sendId: null,
-
       perPage: 6,
       pageNum: 0,
       previousCategoryClicked: "",
@@ -136,9 +135,9 @@ export default {
       allFoods: [],
     };
   },
-
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["user", "cart", "table"]),
+    
     filteredFood: function () {
       console.log("this.foodObj", this.foodObj);
       return this.allFoods.filter(
@@ -148,7 +147,6 @@ export default {
             .match(this.foodObj.category.toLocaleLowerCase()) ||
           this.foodObj.category == "all" ||
           this.foodObj.category == ""
-
         //   &&
         // this.evaluatePrice(f, this.foodObj.price) &&
         // f.food_type.toLowerCase().match(this.foodObj.type.toLowerCase()) &&
@@ -162,7 +160,6 @@ export default {
           f.category_name.match(this.foodObj.category.toLocaleLowerCase()) ||
           this.foodObj.category == "all" ||
           this.foodObj.category == ""
-
         //   &&
         // this.evaluatePrice(f, this.foodObj.price) &&
         // f.food_type.toLowerCase().match(this.foodObj.type.toLowerCase()) &&
@@ -402,22 +399,34 @@ export default {
         .querySelector(":scope > button").style.display = "none";
       this.previousTypeClicked = "";
     },
-    addItem: function async(data) {
+    async addItem(data) {
       // this.sendId = parseInt(this.currentPageItems[index].food_id);
       console.log("send id", data);
-      data.quantity = 1
-       this.setCart(data);
-      this.$router.push('/cart')
-      
+      data.quantity = 1;
+      data.product_id = data.id;
+      data.user_id = (this.user || {}).userId || 0;
+      const payload = JSON.parse(JSON.stringify(data));
+      delete payload.id;
+      payload.cart_details = [];
+      payload.cart_details?.push(JSON.stringify(payload));
+      await this.setCart(data);
+      if ((this.user || {}).userId) {
+        let p = {
+          user_id: (this.user || {}).userId || 0,
+          table_details: (this.table || {}) || {},
+          cart_details: JSON.stringify(this.cart || []),
+          price: 0,
+        };
+        await axios.post("/cart/product/add", p);
+      }
+      this.$router.push("/cart");
       // this.showQuickView = !this.showQuickView;
     },
     async addToCart() {
       console.log("dhfdhddfhdfhdfh", this.user);
-      
       // let existItem = await axios.get(
       //   "/cartItem/" + parseInt(this.user.user_id) + "/" + data.id
       // );
-
       // if (existItem.data.length == 1) {
       //   let data = {
       //     user_id: parseInt(this.user.user_id),
@@ -436,7 +445,6 @@ export default {
       //     food_id: parseInt(this.food),
       //     item_qty: parseInt(this.qty),
       //   };
-
       //   await axios.post("/cartItem/", data);
       //   this.$refs.alert.showAlert(
       //     "success",
@@ -445,11 +453,9 @@ export default {
       //   );
       // }
     },
-
     closeView: function () {
       this.showQuickView = !this.showQuickView;
     },
-
     displayFilterDrop: function () {
       let divControl1 = document.getElementsByClassName("filter-heading");
       let divControl2 = document.getElementsByClassName("filter-section");
@@ -489,7 +495,6 @@ export default {
   components: { QuickView },
 };
 </script>
-
 <style scoped>
 input[type="button"] {
   background: none;
@@ -500,7 +505,6 @@ input[type="button"] {
   cursor: pointer;
   outline: inherit;
 }
-
 .unselect-btn:active,
 .unselect-btn:focus,
 .action-btn:active,
@@ -508,12 +512,10 @@ input[type="button"] {
   border: none;
   outline: none;
 }
-
 hr {
   border-top: 3px solid #ce61e3fa;
   width: 100%;
 }
-
 .unselect-btn {
   background: transparent;
   padding-right: 10px;
@@ -521,43 +523,35 @@ hr {
   color: inherit;
   display: none;
 }
-
 .filter-section {
   width: inherit;
 }
-
 .filter-heading {
   padding-top: 30px;
 }
-
 .filter-heading h1 {
   color: #ec5ebf;
 }
-
 .filter-option {
   list-style-type: none;
   width: inherit;
 }
-
 .filter-option label {
   width: 100%;
   font-size: 15px;
   padding: 3px 0px;
 }
-
 .filter-option label:hover {
   color: rgb(242, 9, 9);
   background-color: #51b9ec !important;
   transition: all 0.5s ease;
 }
-
 .search-box {
   width: 100%;
   justify-content: center;
   position: relative;
   display: flex;
 }
-
 .search-input {
   margin: 0;
   width: 100%;
@@ -566,15 +560,12 @@ hr {
   color: rgb(24, 22, 23);
   background: #ee80f2;
 }
-
 ::placeholder {
   color: rgb(81, 77, 77);
 }
-
 .menu-section {
   padding: 2rem 9%;
 }
-
 .menu-section .menu-tabs {
   margin-bottom: 30px;
   flex: 0 0 100%;
@@ -582,7 +573,6 @@ hr {
   text-align: center;
   background-color: #ec7ae8;
 }
-
 .menu-section .menu-tabs .menu-tab-item {
   display: inline-block;
   cursor: pointer;
@@ -594,22 +584,18 @@ hr {
   transition: all 0.3s ease;
   margin: 0;
 }
-
 .menu-section .menu-tabs .menu-tab-item:hover {
   background-color: #4d48fb !important;
 }
-
 .menu-section .menu-tabs .menu-tab-item p {
   padding: none;
   margin: none;
 }
-
 .menu-section .box-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
   gap: 1.5rem;
 }
-
 .menu-section .box-container .box {
   border-radius: 0.5rem;
   position: relative;
@@ -617,7 +603,6 @@ hr {
   padding: 2rem;
   text-align: center;
 }
-
 .menu-section .box-container .box .fa-heart {
   position: absolute;
   top: 1.5rem;
@@ -626,60 +611,48 @@ hr {
   color: #666;
   cursor: pointer;
 }
-
 .menu-section .box-container .box .fa-heart:hover {
   color: #e986e8;
 }
-
 .menu-section .box-container .box .image {
   margin: 1rem 0;
 }
-
 .menu-section .box-container .box .image img {
   height: 15rem;
 }
-
 .menu-section .box-container .box .content h3 {
   font-size: 2rem;
   color: #130f40;
 }
-
 .menu-section .box-container .box .content .stars {
   padding: 1rem 0;
   font-size: 1.7rem;
 }
-
 .menu-section .box-container .box .content .stars i {
   color: gold;
 }
-
 .menu-section .box-container .box .content .stars span {
   color: #666;
 }
-
 .menu-section .box-container .box .content .desc p {
   font-size: 14px;
   margin: 0;
 }
-
 .menu-section .box-container .box .content .price {
   font-size: 2rem;
   color: #130f40;
 }
-
 .menu-section .box-container .box .content .price span {
   font-size: 1.5rem;
   color: #666;
   text-decoration: line-through;
 }
-
 .menu-section .action-row {
   padding-top: 30px;
   width: 100%;
   text-align: center;
   font-size: 20px;
 }
-
 .menu-section .action-row .action-btn {
   background-color: #da6ecb;
   padding: 3px;
@@ -687,56 +660,45 @@ hr {
   border-radius: 30%;
   color: white;
 }
-
 .menu-section .action-row span {
   margin-right: 15px;
 }
-
 .menu-section .action-row span:hover {
   cursor: pointer;
 }
-
 .menu-section .action-row span.highlight {
   color: #61c2db;
 }
-
 .menu-section .action-row span:first-of-type {
   margin-left: 15px;
 }
-
 .filter-drop-down {
   display: none;
 }
-
 @media (min-width: 576px) {
   .filter-heading,
   .filter-section {
     display: block !important;
   }
 }
-
 @media (max-width: 768px) {
   .menu-section .box-container {
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     gap: 1rem;
   }
-
   .menu-section .box-container .box .content h3 {
     height: 4rem;
   }
 }
-
 @media (max-width: 576px) {
   .search-box,
   .filter-heading,
   .filter-section {
     width: auto;
   }
-
   .filter-option {
     width: 100%;
   }
-
   .filter-drop-down {
     display: block;
     background-color: #e979e0;
@@ -745,7 +707,6 @@ hr {
     margin-bottom: 15px;
     margin-top: 15px;
   }
-
   .filter-drop-down p {
     font-size: 20px;
     padding: 5px 0px;
@@ -753,41 +714,33 @@ hr {
     display: flex;
     justify-content: space-between;
   }
-
   .filter-drop-down p span {
     font-size: 20px;
     padding-right: 10px;
     text-transform: lowercase;
     font-weight: 300;
   }
-
   .filter-heading,
   .filter-section {
     display: none;
   }
-
   .menu-tabs .menu-tab-item {
     font-size: 12px !important;
     padding: 5px 20px !important;
   }
-
   .menu-section .action-row {
     font-size: 16px !important;
   }
-
   .menu-section .action-row span {
     margin-right: 5px;
   }
-
   .menu-section .box-container .box .image img {
     height: 10rem;
   }
-
   .menu-section .box-container .box .desc p,
   .menu-section .box-container .box .content .stars {
     font-size: 10px !important;
   }
-
   .menu-section .box-container .box .content h3 {
     font-size: 14px !important;
     height: 28px;

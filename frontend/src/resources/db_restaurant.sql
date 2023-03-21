@@ -95,6 +95,7 @@ CREATE TABLE booktable(
     book_when VARCHAR(255)
 ) ENGINE=INNODB;
 
+
 CREATE TABLE products(
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     category_id INT,
@@ -131,5 +132,4 @@ CREATE TABLE billstatus (
   bill_status INT,
   primary key (bill_id)
 );
-
 
