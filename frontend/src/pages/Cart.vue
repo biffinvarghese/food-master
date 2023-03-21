@@ -165,15 +165,18 @@ import axios from "axios";
 import { mapMutations, mapState } from "vuex";
 export default {
   name: "Cart",
+
   data() {
     return {
       cartItem: [],
       itemQuantity: [],
     };
   },
+
   created() {
     // this.getAllCartItem();
   },
+
   async mounted() {
     let razorPayScript = document.createElement("script");
     razorPayScript.setAttribute(
@@ -182,12 +185,15 @@ export default {
     );
     document.head.appendChild(razorPayScript);
   },
+
   computed: {
     ...mapState(["allFoods", "user", "cart"]),
+
     filterFoods: function () {
       return this.cart;
     },
   },
+
   methods: {
     ...mapMutations(["removeFromCart", "resetCart", "updateCartQuantity"]),
     matchID: function (food, cartArray) {
@@ -206,6 +212,7 @@ export default {
       });
       return price;
     },
+
     calculateItemPrice: function (index) {
       return (
         (parseInt(this.filterFoods[index].food_price) -
@@ -213,6 +220,7 @@ export default {
         this.itemQuantity[index]
       ).toString();
     },
+
     calculateSummaryPrice: function () {
       let subtotal = 0;
       let discount = 0;
@@ -229,12 +237,14 @@ export default {
       let total = subtotal - discount;
       return [subtotal, discount, total];
     },
+
     async onQtyChange(f) {
       if (f.quantity < 1) {
         f.quantity = 1;
       } else {
         this.updateCartQuantity(f.quantity);
       }
+
       //   let data = {
       //     user_id: parseInt(this.user.user_id),
       //     food_id: parseInt(this.cartItem[i]),
@@ -242,14 +252,18 @@ export default {
       //   };
       //   await axios.put("/cartItem/", data);
     },
+
     async cancelBtn() {
       await axios.delete("/cartItem/" + this.user.user_id);
+
       this.cartItem = [];
       this.itemQuantity = [];
     },
+
     checkOutBtn: function () {
       this.createOrder();
     },
+
     async createOrder() {
       try {
         const response = await axios.post("/razor-pay/order", {
@@ -299,14 +313,17 @@ export default {
     async resetServerCartStatus() {
       await axios.put("/cart/user/status/" , {user_id: this.user.userId, status: 'purchased'});
     },
+
     async removeBtn(f) {
       this.removeFromCart(f);
       //   await axios.delete(
       //     "/cartItem/" + this.user.user_id + "/" + this.cartItem[index]
       //   );
+
       //   this.cartItem.splice(index, 1);
       //   this.itemQuantity.splice(index, 1);
     },
+
     async getAllCartItem() {
       if (this.user) {
         let existItem = await axios.get("/cartItem/" + this.user.user_id);
@@ -325,9 +342,11 @@ export default {
   background: #fff;
   padding: 2rem 9%;
 }
+
 .item-name {
   color: #ea3eea;
 }
+
 .cart-product-img {
   text-align: center;
   width: 100%;
@@ -335,16 +354,19 @@ export default {
   object-fit: cover;
   background-color: #f7f7f7;
 }
+
 .box {
   clear: both;
   margin: 0;
   margin-bottom: 20px;
   padding: 0;
 }
+
 .box:after,
 .box:before {
   display: table;
 }
+
 .box-title {
   background-color: inherit;
   border-color: #e7eaec;
@@ -355,6 +377,7 @@ export default {
   padding: 14px 15px 7px;
   min-height: 78px;
 }
+
 .box-content {
   background-color: inherit;
   color: inherit;
@@ -364,85 +387,106 @@ export default {
   border-style: solid solid none;
   border-width: 1px 0;
 }
+
 .item-desc b {
   font-size: 12px;
 }
+
 .item-desc p {
   font-size: 10px;
 }
+
 .sale-price,
 .first-price,
 .item-quantity {
   font-size: 12px;
 }
+
 .item-quantity {
   width: 60px;
   height: 15px;
 }
+
 .first-price {
   text-decoration: line-through;
 }
+
 .remove-btn {
   font-size: 10px;
   padding: 5px;
   margin-top: 27px;
 }
+
 .remove-btn i {
   padding-right: 5px;
 }
+
 .box-content button i,
 .box-content a i {
   padding-right: 5px;
 }
+
 .no-food {
   text-align: center;
   justify-content: center;
   display: block;
 }
+
 .no-food .image img {
   width: 200px;
   height: 200px;
 }
+
 @media (max-width: 768px) {
   .box-content .item-name {
     font-size: 14px;
   }
+
   .desc button {
     position: absolute;
     bottom: 0;
   }
+
   .box-content .btn-group {
     display: block;
   }
+
   .box-content .btn-group button {
     border-radius: 0.5rem !important;
   }
+
   .box-content .btn-group button i {
     margin-top: 3px;
   }
+
   .box-content .btn-group .check-out-btn {
     display: flex;
     margin-top: 10px;
     margin-bottom: 10px;
   }
 }
+
 @media (max-width: 576px) {
   .box-title {
     min-height: 48px;
   }
+
   .box-title.item-total {
     border: none;
   }
+
   .in-cart .box-content .btn-group {
     margin-top: 5px;
     display: inline-flex;
   }
+
   .in-cart .box-content .btn-group .check-out-btn {
     display: flex;
     margin-top: 0px;
     margin-right: 5px;
     margin-bottom: 0px;
   }
+
   .image-box {
     position: absolute;
     opacity: 0.8;
@@ -452,46 +496,57 @@ export default {
     filter: brightness(60%);
     padding: none;
   }
+
   .image-box img {
     border-radius: 15px;
   }
+
   .in-cart .box-content {
     color: white;
     margin-left: -25px;
     border: none;
     display: flex;
   }
+
   .desc .item-name {
     font-size: 16px;
     filter: brightness(160%);
   }
+
   .desc b {
     font-size: 10px;
   }
+
   .desc p {
     font-size: 12px;
   }
+
   .desc .remove-btn {
     font-size: 10px;
     position: relative;
   }
+
   .item-price {
     position: absolute;
     margin-top: 55px;
   }
+
   .item-price .first-price {
     display: inline;
     padding-left: 5px;
     color: red !important;
   }
+
   .item-qty {
     position: absolute;
     margin-top: 55px;
     padding-left: 160px;
   }
+
   .cal-total {
     display: none;
   }
+
   .in-cart .box-content .check-out-btn {
     display: none;
   }
