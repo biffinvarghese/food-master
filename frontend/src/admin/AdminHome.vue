@@ -50,7 +50,7 @@
         <div class="link-container">
           <router-link
             class="w3-bar-item w3-button"
-            to="/admin/dashboard/orders"
+            to="/admin/dashboard/order-management"
           >
             Orders
           </router-link>
