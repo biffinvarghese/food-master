@@ -1,155 +1,164 @@
 <template>
-  <div class="shopping-cart-section">
-    <div class="heading">
-      <span>Shopping Cart</span>
-      <h3>Good products For Reservation</h3>
-    </div>
+  <div>
+    <loading
+      v-model:active="isLoading"
+      :can-cancel="false"
+      :is-full-page="fullPage"
+    />
+    <div class="shopping-cart-section">
+      <div class="heading">
+        <span>Shopping Cart</span>
+        <h3>Good products For Reservation</h3>
+      </div>
 
-    <div class="container">
-      <div class="wrapper wrapper-content">
-        <div class="row">
-          <div class="in-cart col-md-9">
-            <div class="box">
-              <div class="box-title item-total row">
-                <h3>
-                  <p style="font-size: 15px">
-                    {{ filterFoods.length.toString() }}
-                    <span v-if="filterFoods.length < 2">item</span>
-                    <span v-else>items</span>
-                  </p>
-                  in your cart
-                </h3>
-              </div>
+      <div class="container">
+        <div class="wrapper wrapper-content">
+          <div class="row">
+            <div class="in-cart col-md-9">
+              <div class="box">
+                <div class="box-title item-total row">
+                  <h3>
+                    <p style="font-size: 15px">
+                      {{ filterFoods.length.toString() }}
+                      <span v-if="filterFoods.length < 2">item</span>
+                      <span v-else>items</span>
+                    </p>
+                    in your cart
+                  </h3>
+                </div>
 
-              <div v-if="!filterFoods.length">
-                <div class="box-content row no-food">
-                  <div class="content">
-                    <h2 style="color: #057835fa">
-                      No Items In Cart.For Shopping Return Back
-                    </h2>
-                  </div>
-                  <div class="image">
-                    <img src="../assets/images/notfound.png" alt="" />
+                <div v-if="!filterFoods.length">
+                  <div class="box-content row no-food">
+                    <div class="content">
+                      <h2 style="color: #057835fa">
+                        No Items In Cart.For Shopping Return Back
+                      </h2>
+                    </div>
+                    <div class="image">
+                      <img src="../assets/images/notfound.png" alt="" />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div v-else>
-                <div v-for="(f, index) in filterFoods" :key="index">
-                  <div class="box-content row">
-                    <div class="image-box col-sm-3" style="padding-left: 0">
-                      <img
-                        :src="'http://localhost:8081/' + f.image"
-                        alt=""
-                        class="cart-product-img"
-                      />
-                    </div>
-
-                    <div class="desc col-sm-4">
-                      <h2 class="item-name">{{ f.name }}</h2>
-                      <div class="item-desc">
-                        <b>Description</b>
-                        <p>{{ f.description }}</p>
+                <div v-else>
+                  <div v-for="(f, index) in filterFoods" :key="index">
+                    <div class="box-content row">
+                      <div class="image-box col-sm-3" style="padding-left: 0">
+                        <img
+                          :src="'http://localhost:8081/' + f.image"
+                          alt=""
+                          class="cart-product-img"
+                        />
                       </div>
-                      <button class="btn remove-btn" @click="removeBtn(f)">
-                        <i class="fa fa-trash"></i>Remove item
-                      </button>
-                    </div>
 
-                    <div class="item-price col-sm-1">
-                      <span class="sale-price">{{
-                        parseFloat(f.price) - parseFloat(f.food_discount || 0)
-                      }}</span>
-                      <p
-                        class="text-muted first-price"
-                        v-if="
-                          f.food_discount && parseFloat(f.food_discount) != 0.0
-                        "
-                      >
-                        {{ parseFloat(f.food_price) }}
-                      </p>
-                    </div>
+                      <div class="desc col-sm-4">
+                        <h2 class="item-name">{{ f.name }}</h2>
+                        <div class="item-desc">
+                          <b>Description</b>
+                          <p>{{ f.description }}</p>
+                        </div>
+                        <button class="btn remove-btn" @click="removeBtn(f)">
+                          <i class="fa fa-trash"></i>Remove item
+                        </button>
+                      </div>
 
-                    <div class="item-qty col-sm-2 d-inline">
-                      <label
-                        for="iQuantity"
-                        style="font-size: 12px; padding-right: 2px"
-                        >Quantity:</label
-                      >
-                      <input
-                        type="number"
-                        id="iQuantity"
-                        class="form-control item-quantity"
-                        v-model="f.quantity"
-                        min="1"
-                        max="1000"
-                        @change="onQtyChange(f)"
-                      />
-                    </div>
+                      <div class="item-price col-sm-1">
+                        <span class="sale-price">{{
+                          parseFloat(f.price) - parseFloat(f.food_discount || 0)
+                        }}</span>
+                        <p
+                          class="text-muted first-price"
+                          v-if="
+                            f.food_discount &&
+                            parseFloat(f.food_discount) != 0.0
+                          "
+                        >
+                          {{ parseFloat(f.food_price) }}
+                        </p>
+                      </div>
 
-                    <div class="cal-total col-sm-2">
-                      <h4 class="item-total">
-                        {{ f.price * f.quantity }}
-                      </h4>
+                      <div class="item-qty col-sm-2 d-inline">
+                        <label
+                          for="iQuantity"
+                          style="font-size: 12px; padding-right: 2px"
+                          >Quantity:</label
+                        >
+                        <input
+                          type="number"
+                          id="iQuantity"
+                          class="form-control item-quantity"
+                          v-model="f.quantity"
+                          min="1"
+                          max="1000"
+                          @change="onQtyChange(f)"
+                        />
+                      </div>
+
+                      <div class="cal-total col-sm-2">
+                        <h4 class="item-total">
+                          {{ f.price * f.quantity }}
+                        </h4>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="box-content row">
-              <router-link to="/menu" class="btn shop-btn"
-                ><i class="fa fa-arrow-left"></i>Continue shopping</router-link
-              >
-              <button
-                class="btn check-out-btn"
-                style="margin-left: 10px"
-                :disabled="filterFoods.length ? false : true"
-                @click="checkOutBtn()"
-              >
-                <i class="fa fa fa-shopping-cart"></i>Checkout
-              </button>
-            </div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="box">
-              <div class="box-title">
-                <h3>Cart Summary</h3>
+              <div class="box-content row">
+                <router-link to="/menu" class="btn shop-btn"
+                  ><i class="fa fa-arrow-left"></i>Continue
+                  shopping</router-link
+                >
+                <button
+                  class="btn check-out-btn"
+                  style="margin-left: 10px"
+                  :disabled="filterFoods.length ? false : true"
+                  @click="checkOutBtn()"
+                >
+                  <i class="fa fa fa-shopping-cart"></i>Checkout
+                </button>
               </div>
+            </div>
 
-              <div class="box-content">
-                <span>Summary</span>
-                <h3 class="font-bold total-first-price">
-                  {{ totalPrice() }}
-                </h3>
+            <div class="col-md-3">
+              <div class="box">
+                <div class="box-title">
+                  <h3>Cart Summary</h3>
+                </div>
 
-                <!-- <span>Discount</span>
+                <div class="box-content">
+                  <span>Summary</span>
+                  <h3 class="font-bold total-first-price">
+                    {{ totalPrice() }}
+                  </h3>
+
+                  <!-- <span>Discount</span>
                 <h3 class="font-bold total-discount">
                   {{  }}
                 </h3> -->
 
-                <hr />
+                  <hr />
 
-                <span>Total</span>
-                <h2 class="font-bold total-sale">
-                  {{ totalPrice() }}
-                </h2>
+                  <span>Total</span>
+                  <h2 class="font-bold total-sale">
+                    {{ totalPrice() }}
+                  </h2>
 
-                <div class="btn-group">
-                  <button
-                    class="btn check-out-btn"
-                    :disabled="filterFoods.length ? false : true"
-                    @click="checkOutBtn()"
-                  >
-                    <i class="fa fa-shopping-cart"></i> Checkout
-                  </button>
-                  <!-- <button
+                  <div class="btn-group">
+                    <button
+                      class="btn check-out-btn"
+                      :disabled="filterFoods.length ? false : true"
+                      @click="checkOutBtn()"
+                    >
+                      <i class="fa fa-shopping-cart"></i> Checkout
+                    </button>
+                    <!-- <button
                     class="btn cancel-btn"
                     @click="cancelBtn()"
                     :disabled="filterFoods.length ? false : true"
                   >
                     Cancel
                   </button> -->
+                  </div>
                 </div>
               </div>
             </div>
@@ -162,14 +171,20 @@
 
 <script>
 import axios from "axios";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
 import { mapMutations, mapState } from "vuex";
 export default {
   name: "Cart",
 
+  components: {
+    Loading,
+  },
   data() {
     return {
       cartItem: [],
       itemQuantity: [],
+      isLoading: false,
     };
   },
 
@@ -195,7 +210,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["removeFromCart", "resetCart", "updateCartQuantity"]),
+    ...mapMutations(["removeFromCart", "resetCart", "updateCartQuantity", "setTable"]),
     matchID: function (food, cartArray) {
       let temp = "";
       cartArray.forEach((element) => {
@@ -242,7 +257,18 @@ export default {
       if (f.quantity < 1) {
         f.quantity = 1;
       } else {
-        this.updateCartQuantity(f.quantity);
+        this.isLoading = true;
+        await this.updateCartQuantity(f);
+        if ((this.user || {}).userId) {
+          let p = {
+            user_id: (this.user || {}).userId || 0,
+            table_details: this.table || {} || {},
+            cart_details: JSON.stringify(this.cart || []),
+            price: 0,
+          };
+          await axios.post("/cart/product/add", p);
+          this.isLoading = false;
+        }
       }
 
       //   let data = {
@@ -293,6 +319,7 @@ export default {
           // a.updateCartStatus()
           a.resetServerCartStatus();
           a.resetCart();
+          a.setTable(undefined);
           a.$router.replace("/success");
         },
         prefill: {
@@ -311,11 +338,25 @@ export default {
       pay.open();
     },
     async resetServerCartStatus() {
-      await axios.put("/cart/user/status/" , {user_id: this.user.userId, status: 'purchased'});
+      await axios.put("/cart/user/status/", {
+        user_id: this.user.userId,
+        status: "purchased",
+      });
     },
 
     async removeBtn(f) {
-      this.removeFromCart(f);
+      await this.removeFromCart(f);
+      if ((this.user || {}).userId) {
+        this.isLoading = true;
+        let p = {
+          user_id: (this.user || {}).userId || 0,
+          table_details: this.table || {} || {},
+          cart_details: JSON.stringify(this.cart || []),
+          price: 0,
+        };
+        await axios.post("/cart/product/add", p);
+        this.isLoading = false;
+      }
       //   await axios.delete(
       //     "/cartItem/" + this.user.user_id + "/" + this.cartItem[index]
       //   );

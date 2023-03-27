@@ -22,7 +22,7 @@ const store = new Vuex.Store({
       userId: undefined,
       admin: undefined,
       cart: [],
-      table:{}
+      table:undefined
     };
   },
   getters: {

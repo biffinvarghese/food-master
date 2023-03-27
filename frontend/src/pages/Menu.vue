@@ -141,7 +141,10 @@ export default {
 
   computed: {
     ...mapState(["user", "cart", "table"]),
-    
+    parsedTableData() {
+      return this.table ? JSON.parse(this.table) : null;
+    },
+
     filteredFood: function () {
       console.log("this.foodObj", this.foodObj);
       return this.allFoods.filter(
@@ -407,26 +410,33 @@ export default {
     },
     async addItem(data) {
       // this.sendId = parseInt(this.currentPageItems[index].food_id);
-      console.log("send id", data);
-      data.quantity = 1;
-      data.product_id = data.id;
-      data.user_id = (this.user || {}).userId || 0;
-      const payload = JSON.parse(JSON.stringify(data));
-      delete payload.id;
-      payload.cart_details = [];
-      payload.cart_details?.push(JSON.stringify(payload));
-      await this.setCart(data);
-      if ((this.user || {}).userId) {
-        let p = {
-          user_id: (this.user || {}).userId || 0,
-          table_details: (this.table || {}) || {},
-          cart_details: JSON.stringify(this.cart || []),
-          price: 0,
-        };
-        await axios.post("/cart/product/add", p);
-      }
+      if ((this.parsedTableData || {}).table_id) {
+        console.log("send id", data);
+        data.quantity = 1;
+        data.product_id = data.id;
+        data.user_id = (this.user || {}).userId || 0;
+        const payload = JSON.parse(JSON.stringify(data));
+        delete payload.id;
+        payload.cart_details = [];
+        payload.cart_details?.push(JSON.stringify(payload));
+        await this.setCart(data);
+        if ((this.user || {}).userId) {
+          let p = {
+            user_id: (this.user || {}).userId || 0,
+            table_details: this.table || {} || {},
+            cart_details: JSON.stringify(this.cart || []),
+            price: 0,
+          };
+          await axios.post("/cart/product/add", p);
+        }
 
-      this.$router.push("/cart");
+        this.$router.push("/cart");
+      } else {
+        this.$toast.info("Please secure seat before order.", {
+          position: "bottom",
+        });
+        this.$router.push("/table");
+      }
 
       // this.showQuickView = !this.showQuickView;
     },
