@@ -33,7 +33,7 @@
         </div>
 
         <div class="form-group">
-          <input type="submit" value="login now" class="btn" />
+          <input type="submit" id="submit" value="login now" class="btn" />
           <p>
             don't have an account?
             <router-link @click="scrollToTop()" to="/register"

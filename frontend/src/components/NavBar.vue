@@ -90,10 +90,10 @@
         window.scrollTo(0, 0);
       },
       review(){
-            window.location.replace("http://192.168.54.84:3000/");
+            window.location.replace("http://192.168.54.202:3001/");
         },
         nutrient(){
-            window.location.replace("http://192.168.54.84:3001/");
+            window.location.replace("http://192.168.54.202:3000/");
         },
       showNav: function () {
         let navbar = document.querySelector(".header .navbar");

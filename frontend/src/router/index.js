@@ -36,6 +36,7 @@ const routes = [
     name: "Table",
     component: Table,
   },
+  
   {
     path: "/menu",
     name: "Menu",
